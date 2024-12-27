@@ -9,21 +9,13 @@ function login($email, $password, $connection){
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     if (mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
         session_start();
-        $_SESSION['user'] = $user;
-        header('Location: /PHP/Inicio.php');
+        $_SESSION['email'] = $email;
+        echo "Bienvenido " . $email;
     } else {
-        echo "Usuario o contraseña incorrectos";
-    }
-
+        echo '<span class="incorrectError"> Usuario o Contraseña Incorrectos </span>';
+    } 
 }
-
-function sumar(){
-    print "Hola";
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -31,25 +23,24 @@ function sumar(){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/Login.css">
     <title>Document</title>
 </head>
 <body>
-    <section>
-        <form method="post">
+    <section class="container">
+        <form method="post" class="loginForm">
             <label>
                 <input type="email" placeholder="Email" name="email">
             </label>
             <label>
                 <input type="password" placeholder="Password" name="password">
             </label>
-            <button type="submit">Iniciar Sesión</button>
+            <button type="submit" name="btnSubmit">Iniciar Sesión</button>
 
             <?php  
-            
-            if (isset($_POST['email']) && isset($_POST['password'])) {
-                login($_POST['email'], $_POST['password'], $connection);
-            }
-
+                if (isset($_POST['email']) && isset($_POST['password'])) {
+                    login($_POST['email'], $_POST['password'], $connection);
+                }
             ?>
         </form>
     </section>
