@@ -10,8 +10,9 @@ function login($email, $password, $connection){
     $result = mysqli_stmt_get_result($stmt);
     if (mysqli_num_rows($result) > 0) {
         session_start();
+        $user = mysqli_fetch_assoc($result);
         $_SESSION['email'] = $email;
-        echo "Bienvenido " . $email;
+        echo "Bienvenido " . $user['Usuario'];
     } else {
         echo '<span class="incorrectError"> Usuario o Contraseña Incorrectos </span>';
     } 
