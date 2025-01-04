@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    background-color: #f1f1f1;
+    border: 1px solid #000;
+}
+.userSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 400px;
+    background-color: #f1f1f1;
+    border: 1px solid #000;
+}
+
+.userSection img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.tableSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #f1f1f1;
+    border: 1px solid #000;
+}
+
+.tableSection table{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.tableSection table tr{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background-color: #f1f1f1;
+    border: 1px solid #000;
+}
+
+.tableSection table tr:nth-child(2n){
+    background-color: #f1f1f1;
+}
+.tableSection table tr:nth-child(2n+1){
+    background-color: #e1e1e1;
+}
+.tableSection table tr td{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tableSection table td img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}

@@ -17,8 +17,10 @@ function login($email, $password, $connection){
 
         if($_SESSION['rol'] == 'Administrador') {
             header('location: Administrador/Admin.php');
+            exit;
         } else {
             header('location: Analista/Inicio.php');
+            exit;
         }
 
     } else {

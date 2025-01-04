@@ -7,7 +7,7 @@ if(isset($_SESSION['email'])) {
     echo "Bienvenido " . $_SESSION['Usuario'];
 } else {
     header('location: ../Login.php');
-
+    exit;
 }
 
 ?>
