@@ -12,10 +12,19 @@ function login($email, $password, $connection){
         session_start();
         $user = mysqli_fetch_assoc($result);
         $_SESSION['email'] = $email;
-        echo "Bienvenido " . $user['Usuario'];
+        $_SESSION['Usuario'] = $user['Usuario'];
+        $_SESSION['rol'] = $user['Rol'];
+
+        if($_SESSION['rol'] == 'Administrador') {
+            header('location: Administrador/Admin.php');
+        } else {
+            header('location: Analista/Inicio.php');
+        }
+
     } else {
         echo '<span class="incorrectError"> Usuario o Contraseña Incorrectos </span>';
-    } 
+    }
+
 }
 ?>
 
