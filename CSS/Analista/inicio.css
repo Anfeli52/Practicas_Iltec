@@ -1,10 +1,10 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     height: 100vh;
     margin: 0;
     display: flex;
@@ -13,7 +13,7 @@ body{
     justify-content: center;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,7 +22,8 @@ body{
     background-color: #f1f1f1;
     border: 1px solid #000;
 }
-.userSection{
+
+.userSection {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,13 +34,13 @@ body{
     border: 1px solid #000;
 }
 
-.userSection img{
+.userSection img {
     width: 250px;
     height: 250px;
     border-radius: 50%;
 }
 
-.tableSection{
+.tableSection {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,39 +48,152 @@ body{
     height: 100%;
     width: 100%;
     background-color: #f1f1f1;
-    border: 1px solid #000;
+    
 }
 
-.tableSection table{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
+.tableSection table {
+    width: 95%;
+    border-collapse: collapse;
 }
 
-.tableSection table tr{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    background-color: #f1f1f1;
-    border: 1px solid #000;
+.tableSection th, .tableSection td {
+    padding: 8px;
+    text-align: center;
 }
 
-.tableSection table tr:nth-child(2n){
+.tableSection th {
+    background-color: #c2c2c2;
+}
+
+.tableSection tr:nth-child(even) {
     background-color: #f1f1f1;
 }
-.tableSection table tr:nth-child(2n+1){
+
+.tableSection tr:nth-child(odd) {
     background-color: #e1e1e1;
 }
-.tableSection table tr td{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.tableSection table td img{
-    width: 40px;
-    height: 40px;
+
+.tableSection td img {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
+}
+
+.userSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    padding: 30px 20px;
+    max-width: 350px;
+    margin: 0 auto;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.userSection:hover {
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25), -10px -10px 30px rgba(255, 255, 255, 0.9);
+}
+
+.userSection img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.userSection img:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.userSection h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+    margin: 15px 0 10px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.userSection h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background-color: #af4c4c;
+    margin: 8px auto 0;
+    border-radius: 10px;
+}
+
+.userSection form button {
+    background-color: #af4c4c;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userSection form button:hover {
+    background-color: #a04545;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.userSection form button:active {
+    background-color: #8e3e3e;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tableSection .editButton{
+    background-color: #4c4eaf;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableSection .deleteButton{
+    background-color: #af4c4c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableSection a {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
 }

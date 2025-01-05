@@ -8,6 +8,10 @@ if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    cerrarSesion();
+}
+
 function cerrarSesion() {
     session_start();
     session_destroy();
@@ -23,6 +27,7 @@ function cerrarSesion() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../CSS/Analista/Inicio.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -30,7 +35,9 @@ function cerrarSesion() {
         <section class="userSection">
             <img src="../../IMG/UserProfile.jpg" alt="">
             <h1><?php echo htmlspecialchars($_SESSION['Usuario'], ENT_QUOTES, 'UTF-8'); ?></h1>
-            <button onclick="cerrarSesion()">Cerrar Sesión</button>
+            <form method="post">
+                <button type="submit" name="logout">Cerrar Sesión</button>
+            </form>
         </section>
         <section class="tableSection">
             <table>
@@ -49,11 +56,11 @@ function cerrarSesion() {
                         $result = mysqli_query($connection, $query);
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td> <img src='../../IMG/UserProfile.jpg'> </td>";
-                            echo "<td>" . $row['Numero_Item'] . "</td>";
-                            echo "<td>" . $row['Nombre'] . "</td>";
-                            echo "<td>" . $row['CorreoRegistro'] . "</td>";
-                            echo "<td><a href='calcularItem.php?id=" . $row['Numero_Item'] . "'>Calcular</a></td>";
+                            echo "<td><img src='../../IMG/UserProfile.jpg' alt='Imagen'></td>";
+                            echo "<td>" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Nombre'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['CorreoRegistro'], ENT_QUOTES, 'UTF-8') . "</td>";
+                            echo "<td><a href='../calcularItem.php?id=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "'>Calcular</a></td>";
                             echo "</tr>";
                         }
                     ?>
