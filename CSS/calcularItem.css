@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
+
+.containerPopUp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+.popUpForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 650px;
+    height: 50%;
+    background-color: #fff;
+    color: #053247;
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+.popUpForm .itemInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.popUpForm .itemInfo strong{
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    color: #053247;
+}
+.popUpForm .itemQuantityDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 75%;
+    margin: 20px;
+}
+.popUpForm .infoSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 75%;
+}
+.popUpForm p{
+    display: flex;
+    flex-direction: row;
+    font-family: "Poppins", sans-serif;
+    justify-content: space-between;
+    color: #053247;
+    font-size: 14px;
+}
+.popUpForm label{
+    margin: 10px;
+    font-size: 16px;
+    font-weight: 800;
+}
+.popUpForm input{
+    background-color: #eee;
+    padding: 10px;
+    width: 50%;
+    border: 0px;
+    border-radius: 10px;
+    margin: 5px;
+}
+.popUpForm .buttonSection{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    gap: 20px;
+}
+.popUpForm .buttonSection .calculateButton{
+    padding: 5px 16px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 20px;
+    background-color: #238636;
+    color: #fff;
+    transition: all .3s;
+    cursor: pointer;
+    border: 0px;
+}
+.popUpForm .buttonSection .cancelButton{
+    padding: 5px 16px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 20px;
+    background-color: #BD081C;
+    color: #fff;
+    transition: all .3s;
+    cursor: pointer;
+    border: 0px;
+}

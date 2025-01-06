@@ -62,9 +62,9 @@ function cerrarSesion() {
                             echo "<td>" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "<td>" . htmlspecialchars($row['Nombre'], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "<td>" . htmlspecialchars($row['CorreoRegistro'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td><a href='../calcularItem.php?id=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "'>Calcular</a></td>";
-                            echo "<td><a href='../editarItem.php?id=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='editButton'>Editar</a></td>";
-                            echo "<td><a href='../eliminarItem.php?id=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='deleteButton'>Eliminar</a></td>";
+                            echo "<td><a href='?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "'>Calcular</a></td>";
+                            echo "<td><a href='../editarItem.php?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='editButton'>Editar</a></td>";
+                            echo "<td><a href='../eliminarItem.php?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='deleteButton'>Eliminar</a></td>";
                             echo "</tr>";
                         }
                     ?>
@@ -72,5 +72,12 @@ function cerrarSesion() {
             </table>
         </section>
     </div>
+    <?php 
+    
+        if(!empty($_GET['idItem'])){
+            include '../calcularItem.php';
+        }
+    
+    ?>
 </body>
 </html>
