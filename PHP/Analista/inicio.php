@@ -60,7 +60,7 @@ function cerrarSesion() {
                             echo "<td>" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "<td>" . htmlspecialchars($row['Nombre'], ENT_QUOTES, 'UTF-8') . "</td>";
                             echo "<td>" . htmlspecialchars($row['CorreoRegistro'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td><a href='?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "'>Calcular</a></td>";
+                            echo "<td><a href='?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "&itemQuantity=1'>Calcular</a></td>";
                             echo "</tr>";
                         }
 
@@ -73,7 +73,7 @@ function cerrarSesion() {
     
         if(!empty($_GET['idItem'])){
             include '../calcularItem.php';
-            calcule();
+            showCalcule();
         }
     
     ?>

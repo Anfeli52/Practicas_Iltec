@@ -76,6 +76,7 @@ function cerrarSesion() {
     
         if(!empty($_GET['idItem'])){
             include '../calcularItem.php';
+            showCalcule();
         }
     
     ?>

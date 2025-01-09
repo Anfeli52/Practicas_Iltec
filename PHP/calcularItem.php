@@ -6,11 +6,12 @@ if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
     exit();
 }
 
-function calcule() { 
+function showCalcule() { 
     include '../conexion.php';
 
     $selectedItem = $_GET['idItem'];
-    $select = "SELECT * FROM item WHERE Numero_Item = $selectedItem";
+    $itemQuantity = $_GET['itemQuantity'];
+    $select = "SELECT * FROM `item` INNER JOIN `consumo` ON item.Numero_Item = consumo.id_Item WHERE item.Numero_Item = '$selectedItem'";
     $result = mysqli_query($connection, $select);
     $row = mysqli_fetch_assoc($result);
 
@@ -35,31 +36,31 @@ function calcule() {
                 <div class="itemQuantityDiv">
                     <p>
                         <label> Cantidad de Piezas</label> 
-                        <input type="number" class="itemQuantity">
+                        <input type="number" class="itemQuantity" value="1">
                     </p>
                 </div>
                 <div class="infoSection">
                     <p>
                         <label> Cantidad de Pintura (Kg): </label>
-                        <input type="number" class="paintQuantity">
+                        <input type="number" class="paintQuantity" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[3] : $row['Cantidad_Pintura'] ?>">
                     </p>
                     <p>
                         <label> Lavado (min): </label>
-                        <input type="number" class="timeWash">
+                        <input type="number" class="timeWash" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[0] : $row['Lavado'] ?>">
                     </p>
                     <p>
                         <label> Pintura (min): </label>
-                        <input type="number" class="timePaint">
+                        <input type="number" class="timePaint" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[1] : $row['Pintura'] ?>">
                     </p>
                     <p>
                         <label> Horno (min): </label>
-                        <input type="number" class="timeFurnace">
+                        <input type="number" class="timeFurnace" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[2] : $row['Horneo'] ?>">
                     </p>
                     
                 </div>
                 
                 <div class="buttonSection">
-                    <button class="calculateButton"> Calcular </button>
+                    <a href="?idItem=<?php echo htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') ?>&itemQuantity=<?php echo htmlspecialchars($itemQuantity, ENT_QUOTES, 'UTF-8') ?>" class="calculateButton"> Calcular </a>
                     <button class="cancelButton"> Cancelar </button>
                 </div>
             </form>
@@ -70,15 +71,39 @@ function calcule() {
 <?php } 
 
 
-function editElementByItem(){
+function calculate($idItem, $quantity){
+    include 'conexion.php';
+    
+    $select = "SELECT * FROM item WHERE Numero_Item = $idItem";
+    $result = mysqli_query($connection, $select);
+    $row = mysqli_fetch_assoc($result);
+    $timeWash = $row['Lavado'] * $quantity;
+    $timePaint = $row['Pintura'] * $quantity;
+    $timeFurnace = $row['Horneo'] * $quantity;
+    $paintQuantity = $row['Cantidad_Pintura'] * $quantity;
+
+    $array = [$timeWash, $timePaint, $timeFurnace, $paintQuantity];
+
+    echo '<script> alert("'.$array[0].'") </script>';
+
+    mysqli_close($connection);
+    return $array;
+    
+}
+
+
+
+
+
+function showEditElementByItem(){
 
 }
 
-function deleteElementByItem(){
+function showDeleteElementByItem(){
 
 }
 
-function addItem(){
+function showAddItem(){
 
 }
 
