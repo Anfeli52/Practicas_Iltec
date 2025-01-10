@@ -10,12 +10,14 @@ function showCalcule() {
     include '../conexion.php';
 
     $selectedItem = $_GET['idItem'];
-    $itemQuantity = $_GET['itemQuantity'];
+    $itemQuantity = isset($_POST['itemQuantity']) ? $_POST['itemQuantity'] : 1;
     $select = "SELECT * FROM `item` INNER JOIN `consumo` ON item.Numero_Item = consumo.id_Item WHERE item.Numero_Item = '$selectedItem'";
     $result = mysqli_query($connection, $select);
     $row = mysqli_fetch_assoc($result);
-
+    
+    $calculatedValues = ($itemQuantity > 1) ? calculate($selectedItem, $itemQuantity) : null;
     ?>
+
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -26,7 +28,7 @@ function showCalcule() {
     </head>
     <body>
         <section class="containerPopUp">
-            <form action="" class="popUpForm">
+            <form action="?idItem=<?php echo htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') ?>" class="popUpForm" method="post">
                 <div class="itemInfo">
                     <?php 
                         echo "<strong> ITEM: ". $row['Numero_Item']. "</strong>"; 
@@ -36,31 +38,30 @@ function showCalcule() {
                 <div class="itemQuantityDiv">
                     <p>
                         <label> Cantidad de Piezas</label> 
-                        <input type="number" class="itemQuantity" value="1">
+                        <input type="number" class="itemQuantity" name="itemQuantity" value="<?php echo htmlspecialchars($itemQuantity, ENT_QUOTES, 'UTF-8'); ?>">
                     </p>
                 </div>
                 <div class="infoSection">
                     <p>
                         <label> Cantidad de Pintura (Kg): </label>
-                        <input type="number" class="paintQuantity" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[3] : $row['Cantidad_Pintura'] ?>">
+                        <input type="number" class="paintQuantity" value="<?php echo ($itemQuantity > 1) ? $calculatedValues[3] : $row['Cantidad_Pintura']; ?>">
                     </p>
                     <p>
                         <label> Lavado (min): </label>
-                        <input type="number" class="timeWash" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[0] : $row['Lavado'] ?>">
+                        <input type="number" class="timeWash" value="<?php echo ($itemQuantity > 1) ? $calculatedValues[0] : $row['Lavado']; ?>">
                     </p>
                     <p>
                         <label> Pintura (min): </label>
-                        <input type="number" class="timePaint" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[1] : $row['Pintura'] ?>">
+                        <input type="number" class="timePaint" value="<?php echo ($itemQuantity > 1) ? $calculatedValues[1] : $row['Pintura']; ?>">
                     </p>
                     <p>
                         <label> Horno (min): </label>
-                        <input type="number" class="timeFurnace" value="<?php echo ($itemQuantity>1)?calculate($idItem, $itemQuantity)[2] : $row['Horneo'] ?>">
+                        <input type="number" class="timeFurnace" value="<?php echo ($itemQuantity > 1) ? $calculatedValues[2] : $row['Horneo']; ?>">
                     </p>
-                    
                 </div>
                 
                 <div class="buttonSection">
-                    <a href="?idItem=<?php echo htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') ?>&itemQuantity=<?php echo htmlspecialchars($itemQuantity, ENT_QUOTES, 'UTF-8') ?>" class="calculateButton"> Calcular </a>
+                    <button type="submit" class="calculateButton"> Calcular </button>
                     <button class="cancelButton"> Cancelar </button>
                 </div>
             </form>
@@ -68,13 +69,13 @@ function showCalcule() {
     </body>
     </html>
 
-<?php } 
+<?php }
 
 
 function calculate($idItem, $quantity){
     include 'conexion.php';
-    
-    $select = "SELECT * FROM item WHERE Numero_Item = $idItem";
+
+    $select = "SELECT * FROM consumo WHERE id_Item = $idItem";
     $result = mysqli_query($connection, $select);
     $row = mysqli_fetch_assoc($result);
     $timeWash = $row['Lavado'] * $quantity;
@@ -84,29 +85,8 @@ function calculate($idItem, $quantity){
 
     $array = [$timeWash, $timePaint, $timeFurnace, $paintQuantity];
 
-    echo '<script> alert("'.$array[0].'") </script>';
-
     mysqli_close($connection);
     return $array;
-    
 }
-
-
-
-
-
-function showEditElementByItem(){
-
-}
-
-function showDeleteElementByItem(){
-
-}
-
-function showAddItem(){
-
-}
-
-
 
 ?>
