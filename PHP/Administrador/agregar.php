@@ -19,25 +19,33 @@ function addItem(){
         $timeWash = $_POST['timeWash'];
         $timePaint = $_POST['timePaint'];
         $timeFurnace = $_POST['timeFurnace'];
-
+    
         if (empty($itemId) || empty($itemName) || empty($paintQuantity) || empty($timeWash) || empty($timePaint) || empty($timeFurnace)) {
             echo "<script> alert('Todos los campos son obligatorios'); </script>";
         } else {
-            $insert = "INSERT INTO `item`(`Numero_Item`, `Nombre`, `CorreoRegistro`) VALUES ('$itemId', '$itemName', '".$_SESSION['email']."')";
-            $result = mysqli_query($connection, $insert);
-
-            if($result){
-                $insertConsumo = "INSERT INTO `consumo`(`id_Item`, `Cantidad_Pintura`, `Lavado`, `Pintura`, `Horneo`) VALUES ('$itemId', '$paintQuantity', '$timeWash', '$timePaint', '$timeFurnace')";
-                $resultConsumo = mysqli_query($connection, $insertConsumo);
-
-                if($resultConsumo){
-                    echo "<script> alert('Item agregado correctamente'); </script>";
-                    header('location:inicioAdmin.php');
+            $checkQuery = "SELECT * FROM `item` WHERE `Numero_Item` = '$itemId'";
+            $checkResult = mysqli_query($connection, $checkQuery);
+    
+            if (mysqli_num_rows($checkResult) > 0) {
+                echo "<script> alert('El código del ítem ya existe'); </script>";
+            } else {
+                $insert = "INSERT INTO `item`(`Numero_Item`, `Nombre`, `CorreoRegistro`) VALUES ('$itemId', '$itemName', '".$_SESSION['email']."')";
+                $result = mysqli_query($connection, $insert);
+    
+                if($result){
+                    $insertConsumo = "INSERT INTO `consumo`(`id_Item`, `Cantidad_Pintura`, `Lavado`, `Pintura`, `Horneo`) VALUES ('$itemId', '$paintQuantity', '$timeWash', '$timePaint', '$timeFurnace')";
+                    $resultConsumo = mysqli_query($connection, $insertConsumo);
+    
+                    if($resultConsumo){
+                        echo "<script> alert('Item agregado correctamente'); </script>";
+                        header('location:inicioAdmin.php');
+                        exit();
+                    } else {
+                        echo "<script> alert('Error al agregar el item en consumo'); </script>";
+                    }
                 } else {
                     echo "<script> alert('Error al agregar el item'); </script>";
                 }
-            } else {
-                echo "<script> alert('Error al agregar el item'); </script>";
             }
         }
     }
