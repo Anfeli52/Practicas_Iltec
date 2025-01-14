@@ -62,12 +62,20 @@ function showCalcule() {
                 
                 <div class="buttonSection">
                     <button type="submit" class="calculateButton"> Calcular </button>
-                    <button class="cancelButton"> Cancelar </button>
+                    <button type="button" class="cancelButton" onclick="cerrarFormulario()"> Cancelar </button>
                 </div>
             </form>
         </section>
     </body>
     </html>
+
+    <script>
+        function cerrarFormulario() {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('idItem');
+            window.location.href = url.toString();
+        }
+    </script>
 
 <?php }
 
