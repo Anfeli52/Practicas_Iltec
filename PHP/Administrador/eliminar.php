@@ -1,27 +1,28 @@
 <?php
 
-if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
-    header('location:../Login.php');
-    exit();
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) { // Este if es para verificar si el usuario está logueado
+    header('location:../Login.php'); // Si no está logueado lo redirige al login
+    exit(); // Termina la ejecución del script
 }
 
-if($_SESSION['rol'] != "Administrador"){
-    header('location:../Analista/inicio.php');
+if($_SESSION['rol'] != "Administrador"){ // Este if es para verificar si el usuario es un administrador
+    header('location:../Analista/inicio.php'); // Si no es un administrador lo red
 }
 
-function deleteItem(){ 
-    include '../conexion.php';
+function deleteItem(){  // Esta función muestra el formulario para eliminar un item
+    include '../conexion.php'; // Se incluye el archivo de conexión
 
-    if(isset($_POST['deleteBtn'])){
-        $selectedItem = $_GET['idDeletedItem'];
-        $delete = "DELETE FROM `item` WHERE Numero_Item = '$selectedItem'";
-        $result = mysqli_query($connection, $delete);
+    if(isset($_POST['deleteBtn'])){ // Este if es para verificar si se presionó el botón de eliminar
+        $selectedItem = $_GET['idDeletedItem']; // Se obtiene el id del item a eliminar
+        $delete = "DELETE FROM `item` WHERE Numero_Item = '$selectedItem'"; // Se elimina el item de la base de datos
+        $result = mysqli_query($connection, $delete); // Ejecuta la consulta
 
-        if($result){
-            echo "<script> alert('Item eliminado correctamente'); </script>";
-            header('location:inicioAdmin.php');
-        } else {
-            echo "<script> alert('Error al eliminar el item'); </script>";
+        if($result){ // Este if es para verificar si se eliminó el item correctamente
+            echo "<script> alert('Item eliminado correctamente'); </script>"; // Si se eliminó correctamente muestra un mensaje de alerta
+            header('location:inicioAdmin.php'); // Redirige al inicio del administrador
+            exit(); // Termina la ejecución del script
+        } else { // Si no se eliminó correctamente el item
+            echo "<script> alert('Error al eliminar el item'); </script>"; // Muestra un mensaje de alerta
         }
     }
     ?>
@@ -50,10 +51,10 @@ function deleteItem(){
     </html>
     
     <script>
-        function cerrarFormulario() {
-            const url = new URL(window.location.href);
-            url.searchParams.delete('idDeletedItem');
-            window.location.href = url.toString();
+        function cerrarFormulario() { // Esta función cierra el formulario
+            const url = new URL(window.location.href); // Se obtiene la url actual
+            url.searchParams.delete('idDeletedItem'); // Se elimina el id del item
+            window.location.href = url.toString(); // Se redirige a la url sin el id del item
         }
     </script>
 

@@ -1,33 +1,33 @@
 <?php
 
-if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
-    header('location:../Login.php');
-    exit();
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) { // Este if es para verificar si el usuario está logueado
+    header('location:../Login.php'); // Si no está logueado lo redirige al login
+    exit(); // Termina la ejecución del script
 }
 
-if($_SESSION['rol'] != "Administrador"){
-    header('location:../Analista/inicio.php');
+if($_SESSION['rol'] != "Administrador"){ // Este if es para verificar si el usuario es un administrador
+    header('location:../Analista/inicio.php'); // Si no es un administrador lo redirige al inicio del analista
 }
 
-function showEdit(){
-    include '../conexion.php';
+function showEdit(){ // Esta función muestra el formulario para editar un item
+    include '../conexion.php'; // Se incluye el archivo de conexión
 
-    $selectedItem = $_GET['idEditedItem'];
-    $select = "SELECT * FROM `item` INNER JOIN `consumo` ON item.Numero_Item = consumo.id_Item WHERE item.Numero_Item = '$selectedItem'";
-    $result = mysqli_query($connection, $select);
-    $row = mysqli_fetch_assoc($result);
+    $selectedItem = $_GET['idEditedItem']; // Se obtiene el id del item a editar
+    $select = "SELECT * FROM `item` INNER JOIN `consumo` ON item.Numero_Item = consumo.id_Item WHERE item.Numero_Item = '$selectedItem'"; // Selecciona el item a editar
+    $result = mysqli_query($connection, $select); // Ejecuta la consulta
+    $row = mysqli_fetch_assoc($result); // Obtiene el resultado de la consulta
 
-    if(isset($_POST['updateBtn'])){
-        $itemName = $_POST['itemName'];
-        $paintQuantity = $_POST['paintQuantity'];
-        $timeWash = $_POST['timeWash'];
-        $timePaint = $_POST['timePaint'];
-        $timeFurnace = $_POST['timeFurnace'];
+    if(isset($_POST['updateBtn'])){ // Este if es para verificar si se presionó el botón de actualizar
+        $itemName = $_POST['itemName']; // Se obtiene el nombre del item
+        $paintQuantity = $_POST['paintQuantity']; // Se obtiene la cantidad de pintura
+        $timeWash = $_POST['timeWash']; // Se obtiene el tiempo de lavado
+        $timePaint = $_POST['timePaint']; // Se obtiene el tiempo de pintura
+        $timeFurnace = $_POST['timeFurnace']; // Se obtiene el tiempo de horno
 
-        if (empty($itemName) || empty($paintQuantity) || empty($timeWash) || empty($timePaint) || empty($timeFurnace)) {
-            echo "<script> alert('Todos los campos son obligatorios'); </script>";
-        } else {
-            edit($selectedItem, $itemName, $paintQuantity, $timeWash, $timePaint, $timeFurnace);
+        if (empty($itemName) || empty($paintQuantity) || empty($timeWash) || empty($timePaint) || empty($timeFurnace)) { // Este if es para verificar si todos los campos están llenos
+            echo "<script> alert('Todos los campos son obligatorios'); </script>"; // Si no están llenos muestra un mensaje de alerta
+        } else { // Si todos los campos están llenos
+            edit($selectedItem, $itemName, $paintQuantity, $timeWash, $timePaint, $timeFurnace); // Se llama a la función edit
         }
     }
 
@@ -79,41 +79,41 @@ function showEdit(){
     </html>
 
     <script>
-        function cerrarFormulario() {
-            const url = new URL(window.location.href);
-            url.searchParams.delete('idEditedItem');
-            window.location.href = url.toString();
+        function cerrarFormulario() { // Esta función cierra el formulario
+            const url = new URL(window.location.href); // Se obtiene la url actual
+            url.searchParams.delete('idEditedItem'); // Se elimina el parámetro idEditedItem
+            window.location.href = url.toString(); // Se redirige a la url sin el parámetro idEditedItem
         }
     </script>
 
 <?php }
 
-function edit($idItem, $itemName, $paintQuantity, $timeWash, $timePaint, $timeFurnace){
-    include '../conexion.php';
-    mysqli_begin_transaction($connection);
+function edit($idItem, $itemName, $paintQuantity, $timeWash, $timePaint, $timeFurnace){ // Esta función actualiza un item
+    include '../conexion.php'; // Se incluye el archivo de conexión
+    mysqli_begin_transaction($connection); // Inicia una transacción en la base de datos
 
-    try {
-        $updateItemQuery = "UPDATE `item` SET `Nombre` = '$itemName' WHERE `Numero_Item` = '$idItem'";
-        $result1 = mysqli_query($connection, $updateItemQuery);
-        if (!$result1) {
-            throw new Exception("Error en la actualización de item: " . mysqli_error($connection));
+    try { // Este try es para manejar una excepción en caso de que ocurra un error en la actualización
+        $updateItemQuery = "UPDATE `item` SET `Nombre` = '$itemName' WHERE `Numero_Item` = '$idItem'"; // Actualiza el item
+        $result1 = mysqli_query($connection, $updateItemQuery); // Ejecuta la consulta
+        if (!$result1) { // Este if es para verificar si la consulta se ejecutó correctamente
+            throw new Exception("Error en la actualización de item: " . mysqli_error($connection)); // Si no se ejecutó correctamente muestra un mensaje de error   
         }
 
-        $updateConsumoQuery = "UPDATE `consumo` SET `Cantidad_Pintura` = '$paintQuantity', `Lavado` = '$timeWash', `Pintura` = '$timePaint', `Horneo` = '$timeFurnace' WHERE `id_Item` = '$idItem'";
-        $result2 = mysqli_query($connection, $updateConsumoQuery);
-        if (!$result2) {
-            throw new Exception("Error en la actualización de consumo: " . mysqli_error($connection));
+        $updateConsumoQuery = "UPDATE `consumo` SET `Cantidad_Pintura` = '$paintQuantity', `Lavado` = '$timeWash', `Pintura` = '$timePaint', `Horneo` = '$timeFurnace' WHERE `id_Item` = '$idItem'"; // Actualiza el consumo
+        $result2 = mysqli_query($connection, $updateConsumoQuery); // Ejecuta la consulta
+        if (!$result2) { // Este if es para verificar si la consulta se ejecutó correctamente
+            throw new Exception("Error en la actualización de consumo: " . mysqli_error($connection)); // Si no se ejecutó correctamente muestra un mensaje de error
         }
 
-        mysqli_commit($connection);
-        echo "<script> alert('Item actualizado correctamente'); </script>";
-        header('location:inicioAdmin.php');
-    } catch (Exception $e) {
-        mysqli_rollback($connection);
-        echo "<script> alert('Error al actualizar el item: " . $e->getMessage() . "'); </script>";
+        mysqli_commit($connection); // Confirma la transacción
+        echo "<script> alert('Item actualizado correctamente'); </script>"; // Muestra un mensaje de alerta
+        header('location:inicioAdmin.php'); // Redirige al inicio del administrador
+    } catch (Exception $e) { // Este catch es para manejar la excepción
+        mysqli_rollback($connection); // Revierte la transacción
+        echo "<script> alert('Error al actualizar el item: " . $e->getMessage() . "'); </script>"; // Muestra un mensaje de alerta con el error
     }
 
-    mysqli_close($connection);
+    mysqli_close($connection); // Cierra la conexión
 }
 
 ?>

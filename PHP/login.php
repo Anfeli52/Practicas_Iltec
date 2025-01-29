@@ -1,30 +1,30 @@
 <?php
 
-include 'conexion.php';
+include 'conexion.php'; // Incluimos el archivo de conexión a la base de datos
 
-function login($email, $password, $connection){
-    $query = "SELECT * FROM registro WHERE Correo = ? AND Contraseña = ?";
-    $stmt = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    if (mysqli_num_rows($result) > 0) {
-        session_start();
-        $user = mysqli_fetch_assoc($result);
-        $_SESSION['email'] = $email;
-        $_SESSION['Usuario'] = $user['Usuario'];
-        $_SESSION['rol'] = $user['Rol'];
+function login($email, $password, $connection){ // Función para iniciar sesión
+    $query = "SELECT * FROM registro WHERE Correo = ? AND Contraseña = ?"; // Consulta para seleccionar el usuario y contraseña
+    $stmt = mysqli_prepare($connection, $query); // Preparamos la consulta
+    mysqli_stmt_bind_param($stmt, "ss", $email, $password); // Asignamos los valores a la consulta
+    mysqli_stmt_execute($stmt); // Ejecutamos la consulta
+    $result = mysqli_stmt_get_result($stmt); // Obtenemos el resultado de la consulta
+    if (mysqli_num_rows($result) > 0) { // Si el resultado es mayor a 0, es decir, si existe el usuario
+        session_start(); // Iniciamos la sesión
+        $user = mysqli_fetch_assoc($result); // Obtenemos los datos del usuario
+        $_SESSION['email'] = $email; // Asignamos el email a la sesión
+        $_SESSION['Usuario'] = $user['Usuario']; // Asignamos el usuario a la sesión
+        $_SESSION['rol'] = $user['Rol']; // Asignamos el rol a la sesión
 
-        if($_SESSION['rol'] == 'Administrador') {
-            header('location: Administrador/inicioAdmin.php');
-            exit;
-        } else {
-            header('location: Analista/Inicio.php');
-            exit;
+        if($_SESSION['rol'] == 'Administrador') { // Si el rol es administrador
+            header('location: Administrador/inicioAdmin.php'); // Redireccionamos al inicio del administrador
+            exit; // Salimos
+        } else { // Si no
+            header('location: Analista/Inicio.php'); // Redireccion
+            exit; // Salimos
         }
 
-    } else {
-        echo '<span class="incorrectError"> Usuario o Contraseña Incorrectos </span>';
+    } else { // Si no
+        echo '<span class="incorrectError"> Usuario o Contraseña Incorrectos </span>'; // Mostramos un mensaje de error
     }
 
 }
@@ -50,8 +50,8 @@ function login($email, $password, $connection){
             <button type="submit" name="btnSubmit">Iniciar Sesión</button>
 
             <?php  
-                if (isset($_POST['email']) && isset($_POST['password'])) {
-                    login($_POST['email'], $_POST['password'], $connection);
+                if (isset($_POST['email']) && isset($_POST['password'])) { // Si se envió el formulario
+                    login($_POST['email'], $_POST['password'], $connection); // Llamamos a la función de iniciar sesión
                 }
             ?>
         </form>

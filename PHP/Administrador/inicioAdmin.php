@@ -3,25 +3,25 @@
 include '../conexion.php';
 session_start();
 
-if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
-    header('location:../Login.php');
-    exit();
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) { // Este if es para verificar si el usuario está logueado
+    header('location:../Login.php'); // Si no está logueado lo redirige al login
+    exit(); // Termina la ejecución del script
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-    cerrarSesion();
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) { // Este if es para verificar si se presionó el botón de cerrar sesión
+    cerrarSesion(); // Se llama a la función cerrarSesion
 }
 
-function cerrarSesion() {
-    session_start();
-    session_destroy();
-    header('location:../Login.php');
-    exit();
+function cerrarSesion() { // Esta función cierra la sesión del usuario
+    session_start(); // Se inicia la sesión
+    session_destroy(); // Se destruye la sesión
+    header('location:../Login.php'); // Se redirige al login
+    exit(); // Termina la ejecución del script
 }
 
-if($_SESSION['rol'] != "Administrador"){
-    header('location:../Analista/inicio.php');
-}
+if($_SESSION['rol'] != "Administrador"){ // Este if es para verificar si el usuario es un administrador
+    header('location:../Analista/inicio.php'); // Si no es un administrador lo redirige al inicio del analista
+} 
 
 ?>
 
@@ -58,18 +58,19 @@ if($_SESSION['rol'] != "Administrador"){
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Se hace una consulta para obtener todos los items -->
                     <?php
-                        $query = "SELECT * FROM item";
-                        $result = mysqli_query($connection, $query);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td><img src='../../IMG/UserProfile.jpg' alt='Imagen'></td>";
-                            echo "<td>" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Nombre'], ENT_QUOTES, 'UTF-8') . "</td>";
-                            echo "<td>" . htmlspecialchars($row['CorreoRegistro'], ENT_QUOTES, 'UTF-8') . "</td>";
+                        $query = "SELECT * FROM item"; // Selecciona todos los items
+                        $result = mysqli_query($connection, $query); // Ejecuta la consulta
+                        while ($row = mysqli_fetch_assoc($result)) { // Muestra los items
+                            echo "<tr>"; // Muestra los items
+                            echo "<td><img src='../../IMG/UserProfile.jpg' alt='Imagen'></td>"; // Muestra la imagen
+                            echo "<td>" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "</td>"; // Muestra el número del item
+                            echo "<td>" . htmlspecialchars($row['Nombre'], ENT_QUOTES, 'UTF-8') . "</td>"; // Muestra el nombre del item
+                            echo "<td>" . htmlspecialchars($row['CorreoRegistro'], ENT_QUOTES, 'UTF-8') . "</td>"; // Muestra el correo registrado
                             echo "<td><a href='?idItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "'>Calcular</a></td>";
-                            echo "<td><a href='?idEditedItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='editButton'>Editar</a></td>";
-                            echo "<td><a href='?idDeletedItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='deleteButton'>Eliminar</a></td>";
+                            echo "<td><a href='?idEditedItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='editButton'>Editar</a></td>"; // Muestra el link para editar el item
+                            echo "<td><a href='?idDeletedItem=" . htmlspecialchars($row['Numero_Item'], ENT_QUOTES, 'UTF-8') . "' class='deleteButton'>Eliminar</a></td>"; // Muestra el link para eliminar el item
                             echo "</tr>";
                         }
                     ?>
@@ -79,21 +80,21 @@ if($_SESSION['rol'] != "Administrador"){
     </div>
     <?php 
     
-        if(!empty($_GET['idItem'])){
-            include '../calcularItem.php';
-            showCalcule();
+        if(!empty($_GET['idItem'])){ // Este if es para verificar si se seleccionó un item
+            include '../calcularItem.php'; // Se incluye el archivo para calcular los tiempos
+            showCalcule(); // Se llama a la función para mostrar el formulario
         }
-        if(!empty($_GET['idEditedItem'])){
-            include 'editar.php';
-            showEdit();
+        if(!empty($_GET['idEditedItem'])){ // Este if es para verificar si se seleccionó un item para editar
+            include 'editar.php'; // Se incluye el archivo para editar el item
+            showEdit(); // Se llama a la función para mostrar el formulario
         }
-        if(!empty($_GET['idDeletedItem'])){
-            include 'eliminar.php';
-            deleteItem();
+        if(!empty($_GET['idDeletedItem'])){ // Este if es para verificar si se seleccionó un item para eliminar
+            include 'eliminar.php'; // Se incluye el archivo para eliminar el item
+            deleteItem(); // Se llama a la función para eliminar el item
         }
-        if(!empty($_GET['addItem'])){
-            include 'agregar.php';
-            addItem();
+        if(!empty($_GET['addItem'])){ // Este if es para verificar si se seleccionó agregar un item
+            include 'agregar.php'; // Se incluye el archivo para agregar un item
+            addItem(); // Se llama a la función para agregar el item
         }
     
     ?>
